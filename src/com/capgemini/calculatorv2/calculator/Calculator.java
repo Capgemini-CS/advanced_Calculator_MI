@@ -1,13 +1,19 @@
 package com.capgemini.calculatorv2.calculator;
 
+import com.capgemini.calculatorv2.iofile.IReadNumbersInputFromFile;
+import com.capgemini.calculatorv2.iofile.IWriteNumbersToFile;
 import com.capgemini.calculatorv2.operation.Equation;
 import com.capgemini.calculatorv2.operation.EquationGeneral;
 import com.capgemini.calculatorv2.validation.IValidationOperator;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
-public class Calculator implements EquationGeneral, IValidationOperator {
+public class Calculator implements EquationGeneral, IValidationOperator, IWriteNumbersToFile {
 
     public Calculator() {
         super();
@@ -51,4 +57,19 @@ public class Calculator implements EquationGeneral, IValidationOperator {
             return false;
         }
     }
+
+    @Override
+    public int saveNumbersInTxtFile(int firstNumber, String operator, int secondNumber) throws FileNotFoundException {
+        FileOutputStream fileOutputStream = new FileOutputStream("Equation.txt");
+        PrintWriter printWriter = new PrintWriter(fileOutputStream);
+        printWriter.println(firstNumber);
+        printWriter.println(operator);
+        printWriter.println(secondNumber);
+        int result;
+        result=executeEquation(firstNumber,operator,secondNumber);
+        printWriter.println(result);
+        printWriter.close();
+        return result;
+    }
+
 }
