@@ -1,13 +1,20 @@
 package com.capgemini.calculatorv2.calculator;
 
+import com.capgemini.calculatorv2.iofile.IReadNumbersInputFromFile;
+import com.capgemini.calculatorv2.iofile.IWriteNumbersToFile;
 import com.capgemini.calculatorv2.operation.Equation;
 import com.capgemini.calculatorv2.operation.EquationGeneral;
 import com.capgemini.calculatorv2.validation.IValidationOperator;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Calculator implements EquationGeneral, IValidationOperator {
+import static com.capgemini.calculatorv2.utils.Constants.INPUT_NUMBERS_FILENAME;
+import static com.capgemini.calculatorv2.utils.Constants.NUMBER_FILENAME;
+
+public class Calculator implements EquationGeneral, IValidationOperator, IWriteNumbersToFile, IReadNumbersInputFromFile {
 
     public Calculator() {
         super();
@@ -50,5 +57,51 @@ public class Calculator implements EquationGeneral, IValidationOperator {
             System.out.println("Your parameters is not correct");
             return false;
         }
+    }
+
+    @Override
+    public int saveNumbersInTxtFile(int firstNumber, String operator, int secondNumber) {
+        FileOutputStream fileOutputStream;
+        int result = 0;
+        try {
+            fileOutputStream = new FileOutputStream(NUMBER_FILENAME.getName());
+            PrintWriter printWriter = new PrintWriter(fileOutputStream);
+            printWriter.println(firstNumber);
+            printWriter.println(operator);
+            printWriter.println(secondNumber);
+            result = executeEquation(firstNumber, operator, secondNumber);
+            printWriter.println(result);
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public int readNumbersFromTxtFile() {
+        String line;
+        int number1 = 0;
+        String operator = null;
+        int number2 = 0;
+        try {
+            FileReader fileInputNumbers = new FileReader(INPUT_NUMBERS_FILENAME.getName());
+            BufferedReader bufferedReader = new BufferedReader(fileInputNumbers);
+            List<String> listWithNumbers = new ArrayList<>();
+            while ((line = bufferedReader.readLine()) != null) {
+                listWithNumbers.add(line);
+            }
+            number1 = Integer.parseInt(listWithNumbers.get(0));
+            operator = listWithNumbers.get(1);
+            number2 = Integer.parseInt(listWithNumbers.get(2));
+
+            bufferedReader.close();
+            for (String listNum : listWithNumbers) {
+                System.out.println(listNum);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return executeEquation(number1, operator, number2);
     }
 }
