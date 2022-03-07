@@ -12,9 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.capgemini.calculatorv2.utils.Constants.INPUT_NUMBERS_FILENAME;
-import static com.capgemini.calculatorv2.utils.Constants.NUMBER_FILENAME;
 
-public class Calculator implements EquationGeneral, IValidationOperator, IWriteNumbersToFile, IReadNumbersInputFromFile {
+public class Calculator implements EquationGeneral, IValidationOperator, IReadNumbersInputFromFile {
 
     public Calculator() {
         super();
@@ -57,25 +56,6 @@ public class Calculator implements EquationGeneral, IValidationOperator, IWriteN
             System.out.println("Your parameters is not correct");
             return false;
         }
-    }
-
-    @Override
-    public int saveNumbersInTxtFile(int firstNumber, String operator, int secondNumber) {
-        FileOutputStream fileOutputStream;
-        int result = 0;
-        try {
-            fileOutputStream = new FileOutputStream(NUMBER_FILENAME.getName());
-            PrintWriter printWriter = new PrintWriter(fileOutputStream);
-            printWriter.println(firstNumber);
-            printWriter.println(operator);
-            printWriter.println(secondNumber);
-            result = executeEquation(firstNumber, operator, secondNumber);
-            printWriter.println(result);
-            printWriter.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     @Override

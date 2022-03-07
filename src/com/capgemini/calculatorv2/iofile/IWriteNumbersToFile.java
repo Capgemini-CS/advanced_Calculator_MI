@@ -4,5 +4,5 @@ import java.io.*;
 
 public interface IWriteNumbersToFile {
 
-    int saveNumbersInTxtFile(int firstNumber, String operator, int secondNumber) throws FileNotFoundException;
+    int saveNumbersInTxtFile(int firstNumber, String operator, int secondNumber);
 }
