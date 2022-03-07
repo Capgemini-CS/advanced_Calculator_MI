@@ -4,8 +4,7 @@ import com.capgemini.calculatorv2.calculator.Calculator;
 import com.capgemini.calculatorv2.input.Key;
 import com.capgemini.calculatorv2.input.Operator;
 import com.capgemini.calculatorv2.screen.OutputScreen;
-
-import java.io.FileNotFoundException;
+import com.capgemini.calculatorv2.screen.OutputScreenFile;
 
 public class RunMainCalculatorTxtFile {
     public static void main(String[] args) {
@@ -16,8 +15,11 @@ public class RunMainCalculatorTxtFile {
         Operator operator = new Operator();
 
         OutputScreen outputScreen = new OutputScreen();
-        //outputScreen.showOutputOnScreen(calculator.saveNumbersInTxtFile(firstNumber.getKeyNumber(), operator.getOperatorInput(), secondNumber.getKeyNumber()));
-        outputScreen.showOutputOnScreen(calculator.readNumbersFromTxtFile());
+        //outputScreen.showOutputOnScreen(calculator.readNumbersFromTxtFile());
+
+        OutputScreenFile outputScreenFile = new OutputScreenFile();
+        outputScreenFile.saveNumbersInTxtFile(firstNumber.getKeyNumber(), operator.getOperatorInput(), secondNumber.getKeyNumber());
+
 
     }
 }
